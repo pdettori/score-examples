@@ -1,0 +1,55 @@
+# cloud object store provisioner
+- uri: template://rag-provisioners/tools/ibm-cloud-object-storage
+  # (Required) Which resource type to match
+  type: tool
+  # (Optional) Which 'class' of the resource. Null will match any class, a non-empty value like 'default' will match
+  # only resources of that class.
+  class: ibm-cloud-object-storage
+  # (Optional) The exact resource id to match. Null will match any resource, a non-empty value will only match
+  # the resource with exact same id.
+  id: null
+  # (Optional) The outputs template gets evaluated last and translates into the outputs available as placeholder
+  # references like ${resources.my-resource.key}.
+  outputs: |
+    # Instead of returning secret outputs as plaintext, they can be embedded as reference to Kubernetes Secrets. When
+    # these are detected, they can be used in environment variables or file contents securely.
+    COS_API_KEY_ID: {{ encodeSecretRef "rag-secret" "COS_API_KEY_ID" }}
+    COS_SERVICE_INSTANCE_ID: {{ encodeSecretRef "rag-secret" "COS_SERVICE_INSTANCE_ID" }}
+    COS_BUCKET: {{ encodeSecretRef "rag-secret" "COS_BUCKET" }}
+    COS_ENDPOINT: {{ encodeSecretRef "rag-secret" "COS_ENDPOINT" }}
+# milvus provisioner
+- uri: template://rag-provisioners/vectordbs/milvus
+  # (Required) Which resource type to match
+  type: vectordb
+  # (Optional) Which 'class' of the resource. Null will match any class, a non-empty value like 'default' will match
+  # only resources of that class.
+  class: milvus
+  # (Optional) The exact resource id to match. Null will match any resource, a non-empty value will only match
+  # the resource with exact same id.
+  id: null
+  # (Optional) The outputs template gets evaluated last and translates into the outputs available as placeholder
+  # references like ${resources.my-resource.key}.
+  outputs: |
+    # Instead of returning secret outputs as plaintext, they can be embedded as reference to Kubernetes Secrets. When
+    # these are detected, they can be used in environment variables or file contents securely.
+    MILVUS_PORT: {{ encodeSecretRef "rag-secret" "MILVUS_PORT" }}
+    MILVUS_HOST: {{ encodeSecretRef "rag-secret" "MILVUS_HOST" }}
+    MILVUS_USERNAME: {{ encodeSecretRef "rag-secret" "MILVUS_USERNAME" }}
+    MILVUS_PASSWORD: {{ encodeSecretRef "rag-secret" "MILVUS_PASSWORD" }} 
+    MILVUS_COLLECTION: {{ encodeSecretRef "rag-secret" "MILVUS_COLLECTION" }}    
+# model provisioner
+- uri: template://rag-provisioners/models/all-minilm-l6-v2
+  # (Required) Which resource type to match
+  type: model
+  # (Optional) Which 'class' of the resource. Null will match any class, a non-empty value like 'default' will match
+  # only resources of that class.
+  class: all-minilm-l6-v2
+  # (Optional) The exact resource id to match. Null will match any resource, a non-empty value will only match
+  # the resource with exact same id.
+  id: null
+  # (Optional) The outputs template gets evaluated last and translates into the outputs available as placeholder
+  # references like ${resources.my-resource.key}.
+  outputs: |
+    # Instead of returning secret outputs as plaintext, they can be embedded as reference to Kubernetes Secrets. When
+    # these are detected, they can be used in environment variables or file contents securely.
+    MODEL_ENDPOINT: {{ encodeSecretRef "rag-secret" "MODEL_ENDPOINT" }}    
